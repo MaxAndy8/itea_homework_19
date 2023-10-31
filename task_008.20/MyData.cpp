@@ -7,6 +7,26 @@ namespace MY {
 
     const int Data::daysInMonth[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     //---------------------------------------------
+    bool Data::isValidDate() const {
+        if (month < 1 || month > 12 || day < 1) {
+            return false;
+        }
+
+        // Перевірка на високосний рік (29 днів у лютому)
+        if (month == 2 && isLeapYear(year)) {
+            if (day > 29) {
+                return false;
+            }
+        }
+        else {
+            if (day > daysInMonth[month - 1]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    //---------------------------------------------
     bool Data::isLeapYear(int p_year) const {
         return (p_year % 4 == 0 && p_year % 100 != 0) || (p_year % 400 == 0);
     }
@@ -72,7 +92,9 @@ namespace MY {
     }
     //---------------------------------------------
     Data::Data(int y, char m, char d) : day(d), month(m), year(y) {
-        
+        if (!isValidDate()) {
+            throw std::invalid_argument("Некоректна дата.");
+        }
     }
     //---------------------------------------------
     int Data::operator-(const Data& other) const {

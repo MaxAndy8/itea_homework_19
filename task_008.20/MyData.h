@@ -9,6 +9,7 @@ namespace MY {
     private:
         static const int daysInMonth[];
 
+        bool isValidDate() const;
         bool isLeapYear(int p_year) const;
         int  daysFromStartOfEra() const;
         void dateFromDays(int totalDays);
